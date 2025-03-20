@@ -1,0 +1,63 @@
+import greenfoot.*;
+
+public class Enemy extends Actor {
+    private boolean visible = false;
+    private int speed = 1;
+    private int attackCooldown = 0;
+
+    // ✅ Fix: Add constructor to set initial position
+    public Enemy(int x, int y) {
+        setLocation(x, y);
+    }
+
+    public void act() {
+        if (visible) {
+            chasePlayer();
+        } else {
+            moveRandomly();
+        }
+        checkAttack();
+    }
+
+    private void moveRandomly() {
+        if (Greenfoot.getRandomNumber(100) < 5) {
+            setRotation(Greenfoot.getRandomNumber(360));
+        }
+        move(speed);
+    }
+
+    private void chasePlayer() {
+        Shooter player = getClosestPlayer();
+        if (player != null) {
+            turnTowards(player.getX(), player.getY());
+            move(speed);
+        }
+    }
+
+    public void setVisible(boolean state) {
+        visible = state;
+        if (visible) {
+            getImage().setTransparency(255);
+        } else {
+            getImage().setTransparency(0);
+        }
+    }
+
+    private void checkAttack() {
+        if (attackCooldown == 0 && isTouching(Shooter.class)) {
+            Shooter player = (Shooter) getOneIntersectingObject(Shooter.class);
+            if (player != null) {
+                player.takeDamage(); // ✅ Calls method correctly
+                attackCooldown = 50;
+            }
+        }
+        if (attackCooldown > 0) {
+            attackCooldown--;
+        }
+    }
+
+    private Shooter getClosestPlayer() {
+        if (getWorld() == null) return null;
+        return (Shooter) getWorld().getObjects(Shooter.class).stream().findFirst().orElse(null);
+    }
+}
