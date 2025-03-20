@@ -1,0 +1,49 @@
+import greenfoot.*;
+
+public class Shooter extends Actor {
+    private int speed = 3;
+    private int health = 3;
+    private GreenfootSound gameOverSound = new GreenfootSound("gameover.wav");
+
+    public void act() {
+        moveShooter();
+        checkRoomChange();
+        updateHealthDisplay();
+    }
+
+    private void moveShooter() {
+        if (Greenfoot.isKeyDown("up")) {
+            setLocation(getX(), getY() - speed);
+        }
+        if (Greenfoot.isKeyDown("down")) {
+            setLocation(getX(), getY() + speed);
+        }
+        if (Greenfoot.isKeyDown("left")) {
+            setLocation(getX() - speed, getY());
+        }
+        if (Greenfoot.isKeyDown("right")) {
+            setLocation(getX() + speed, getY());
+        }
+    }
+
+    private void checkRoomChange() {
+        Door door = (Door) getOneIntersectingObject(Door.class);
+        if (door != null) {
+            ((MazeWorld) getWorld()).changeRoom();
+            setLocation(50, 200); // Reset player position
+        }
+    }
+
+    public void takeDamage() {
+        health--;
+        if (health <= 0) {
+            gameOverSound.play();
+            getWorld().showText("Game Over!", getWorld().getWidth() / 2, getWorld().getHeight() / 2);
+            Greenfoot.stop();
+        }
+    }
+
+    private void updateHealthDisplay() {
+        getWorld().showText("Health: " + health, 50, 10);
+    }
+}
