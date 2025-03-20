@@ -1,0 +1,8 @@
+import greenfoot.*;
+
+public class Wall extends Actor {
+    public Wall(int x, int y) {
+        getImage().scale(40, 40);
+        setLocation(x, y);
+    }
+}
