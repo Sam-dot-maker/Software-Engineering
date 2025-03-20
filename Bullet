@@ -1,0 +1,28 @@
+import greenfoot.*;
+
+public class Bullet extends Actor {
+    private int speed = 5;
+    private GreenfootSound hitSound = new GreenfootSound("enemy_hit.wav");
+
+    public Bullet(int direction) {
+        setRotation(direction);
+    }
+
+    public void act() {
+        move(speed);
+        checkCollision();
+    }
+
+    private void checkCollision() {
+        if (getWorld() == null) return;
+        
+        Enemy hitEnemy = (Enemy) getOneIntersectingObject(Enemy.class);
+        if (hitEnemy != null) {
+            hitSound.play();
+            getWorld().removeObject(hitEnemy);
+            getWorld().removeObject(this);
+        } else if (isAtEdge()) {
+            getWorld().removeObject(this);
+        }
+    }
+}
