@@ -1,0 +1,26 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+public class MyWorld extends World
+{
+    public MyWorld()
+    {    
+        super(600, 400, 1); // Set the size of the world
+        Player player = new Player(); // Create a new Player instance
+        addObject(player, 50, 50); // Add the player to the world at position (50, 50)
+
+        // Create walls to form a room
+        createWalls();
+
+        // Add a door
+        Door door = new Door();
+        addObject(door, 550, 200); // Place the door at the right side of the room
+    }
+
+    private void createWalls() {
+        // Create walls around the room
+        addObject(new Wall(600, 20), 300, 10); // Top wall
+        addObject(new Wall(600, 20), 300, 390); // Bottom wall
+        addObject(new Wall(20, 400), 10, 200); // Left wall
+        addObject(new Wall(20, 400), 590, 200); //
+    } 
+}
