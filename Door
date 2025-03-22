@@ -1,0 +1,10 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+public class Door extends Actor
+{
+    public Door() {
+        setImage(new GreenfootImage(40, 60)); // Set the size of the door
+        getImage().setColor(new Color(139, 69, 19)); // Set a custom brown color using RGB
+        getImage().fill(); // Fill the door with color
+    }
+}
